@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-center mb-4">File a Complaint</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <!-- Display form errors (if any) -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> Please correct the errors below.
+                    <ul>
+                        {% for field, errors in form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|title }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <!-- Complaint Submission Form -->
+            <form method="post">
+                {% csrf_token %}  <!-- Add CSRF token for security -->
+                
+                <!-- Title Field -->
+                <div class="form-group mb-3">
+                    <label for="id_title">Title</label>
+                    <input type="text" name="title" class="form-control" id="id_title" placeholder="Enter complaint title" required>
+                </div>
+
+                <!-- Description Field -->
+                <div class="form-group mb-3">
+                    <label for="id_description">Description</label>
+                    <textarea name="description" class="form-control" id="id_description" rows="4" placeholder="Describe your complaint..." required></textarea>
+                </div>
+
+                <!-- Category Field -->
+                <div class="form-group mb-3">
+                    <label for="id_category">Category</label>
+                    <select name="category" class="form-control" id="id_category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="equipment">Equipment</option>
+                        <option value="software">Software</option>
+                        <option value="safety">Safety</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- Priority Field -->
+                <div class="form-group mb-3">
+                    <label for="id_priority">Priority</label>
+                    <select name="priority" class="form-control" id="id_priority" required>
+                        <option value="" disabled selected>Select a priority</option>
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary w-100">Submit Complaint</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
